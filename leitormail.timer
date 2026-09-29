@@ -1,0 +1,11 @@
+[Unit]
+Description=LeitorMail a cada 16 minutos — lê até 3 e-mails novos
+Documentation=man:leitormail(7)
+
+[Timer]
+OnCalendar=*-*-* *:00/16
+Persistent=true
+Unit=leitormail.service
+
+[Install]
+WantedBy=timers.target

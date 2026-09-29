@@ -1,0 +1,39 @@
+#!/bin/bash
+# omarchy-mail-toggle — Liga/desliga o LeitorMail (monitor 16min) com Super+F12.
+# Ao ligar, o monitor volta a notificar; ao desligar, para o timer e fecha o
+# postit aberto. O post-it automático está desligado (2026-09-29): o dono
+# escolheu analisar no relatório diário em vez de ter as notas repetindo na tela.
+set -u
+STATE_DIR="$HOME/.local/state/omarchy-voice"
+FLAG="$STATE_DIR/leitormail_on"
+
+estado() {
+    [ -f "$FLAG" ] && [ "$(cat "$FLAG")" = "1" ] && echo on || echo off
+}
+
+fechar_postit() {
+    # postit aberto tem título mail_postit_omarchy
+    hyprctl clients -j 2>/dev/null | python3 -c "
+import json,sys
+try:
+    for c in json.load(sys.stdin):
+        if 'mail_postit' in (c.get('title') or ''):
+            print(c['address'])
+except Exception:
+    pass" 2>/dev/null | while read -r addr; do
+        hyprctl dispatch closewindow "address:$addr" >/dev/null 2>&1
+    done
+}
+
+if [ "$(estado)" = "on" ]; then
+    echo 0 > "$FLAG"
+    systemctl --user stop leitormail.timer 2>/dev/null
+    fechar_postit
+    notify-send -a LeitorMail "LeitorMail desligado" >/dev/null 2>&1 &
+else
+    echo 1 > "$FLAG"
+    systemctl --user start leitormail.timer 2>/dev/null
+    systemctl --user enable leitormail.timer >/dev/null 2>&1
+    # post-it desligado a pedido do dono (2026-09-29): a análise continua no
+    # relatório diário. Para ver as vagas na tela, chame omarchy-mail-postit.
+fi

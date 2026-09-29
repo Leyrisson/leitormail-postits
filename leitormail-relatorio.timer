@@ -1,0 +1,11 @@
+[Unit]
+Description=LeitorMail — dispara relatório diário de vagas às 10:00 e 18:00
+
+[Timer]
+OnCalendar=*-*-* 10:00:00
+OnCalendar=*-*-* 18:00:00
+Persistent=true
+RandomizedDelaySec=30
+
+[Install]
+WantedBy=timers.target

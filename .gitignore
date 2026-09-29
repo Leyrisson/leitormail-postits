@@ -1,0 +1,20 @@
+# segredos — nunca versionar
+credenciais.env
+*.env
+!*.env.example
+
+# estado de execução
+*.log
+leitormail_uid
+leitormail_on
+toggle
+pendente.txt
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# backups e artefatos de teste
+*.bak-*

@@ -1,0 +1,4 @@
+#!/bin/bash
+# omarchy-mail-postit — Popup postit com os últimos 5 e-mails e resumo (LLM local).
+# Uso: omarchy-mail-postit [--dry]
+exec /usr/bin/python3 "$HOME/.config/omarchy-voice/plugins/leitormail/postit.py" "$@"

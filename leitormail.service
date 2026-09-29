@@ -1,0 +1,7 @@
+[Unit]
+Description=LeitorMail — 3 e-mails a cada 16 min (o último primeiro)
+Documentation=man:leitormail(7)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.config/omarchy-voice/plugins/leitormail/leitormail.py

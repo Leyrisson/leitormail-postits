@@ -1,0 +1,13 @@
+[Unit]
+Description=LeitorMail — relatório diário de vagas/entrevistas por e-mail (kanban)
+Documentation=man:leitormail(7)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.config/omarchy-voice/plugins/leitormail/relatorio_vagas.py
+Nice=5
+
+[Install]
+WantedBy=default.target
